@@ -293,31 +293,27 @@ public:
      ----------------------------------------------------------------------*/
     bool IsRotation(string a, string b){
         
-        if (a.size() != b.size()){ return false; }
+        if (a.size() != b.size() || a.size() == 0){ return false; }
         
         /*
-         Append a onto itself, then find and remove b,
-         if what's leftover is a, then return true
+         
+         C++ STL equivalent of isSubstring() would be string.find()
          
             a="waterbottle"
-           a2="waterbottlewaterbottle"
+          a+a="waterbottlewaterbottle"
             b=   "erbottlewat"
-         a2-b= "wat          erbottle"
-         
          */
-        string a2 = a+a;
-        int i = (int)a2.find(b);
-        if (i != string::npos){
-            a2.erase(i, a.size());
-            return a2 == a;
-        }
-        return false;
+        return ((int)(a+a).find(b) != string::npos) ? true : false;
     }
 };
 
 int main(int argc, const char * argv[]) {
 
-     
+    Solution solution;
+    string a = "waterbottle";
+    string b = "erbottlewat";
+    cout << solution.IsRotation(a, b) << endl;
+    
     return 0;
 }
 
