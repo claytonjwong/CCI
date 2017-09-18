@@ -119,6 +119,11 @@ public:
      ----------------------------------------------------------------------*/
     bool IsOneAway(string a, string b, bool ignoreCase=false){
         
+        //
+        // TODO: actually this hash method doesn't work for specific use cases
+        //
+        // ex: input "abcdef" and "cdefab" would return true
+        //
         if (abs((int)a.size()-(int)b.size()) > 1) { return false; }
         
         if (ignoreCase){
@@ -127,8 +132,8 @@ public:
         }
         
         unordered_map<char,int> m;
-        for (auto ch : a){ if(m.find(ch) == m.end()){ m[ch]= 1; }else{ m[ch]++; } }
-        for (auto ch : b){ if(m.find(ch) == m.end()){ m[ch]=-1; }else{ m[ch]--; } }
+        for (auto ch : a){ m[ch]++; }
+        for (auto ch : b){ m[ch]--; }
         
         int cnt=0;
         typedef typename unordered_map<char,int>::iterator m_itr;
@@ -310,9 +315,15 @@ public:
 int main(int argc, const char * argv[]) {
 
     Solution solution;
-    string a = "waterbottle";
-    string b = "erbottlewat";
-    cout << solution.IsRotation(a, b) << endl;
+    string a{}, b{};
+    while(true){
+        cout << "a: ";
+        cin >> a;
+        cout << "b: ";
+        cin >> b;
+        cout << solution.IsOneAway(a, b) << endl;
+    }
+    
     
     return 0;
 }
