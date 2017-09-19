@@ -10,6 +10,7 @@
 #include <stack>
 #include <queue>
 #include <unordered_map>
+#include <time.h>
 
 using namespace std;
 
@@ -51,6 +52,10 @@ template <class T>
 class Solution{
     
 public:
+    
+    Solution(){
+        srand(time(nullptr));
+    }
     
     /*----------------------------------------------------------------------
      4.1 Route Between Nodes: Given a directed graph, design an algorithm
@@ -292,10 +297,19 @@ public:
      likely to be chosen.  Design and implement an algorithm for getRandomNode,
      and explain how you would implement the rest of the methods.
      ----------------------------------------------------------------------*/
-    
-    //
-    // TODO
-    //
+    shared_ptr<TreeNode<T>> RandomNode(shared_ptr<TreeNode<T>> root){
+        if (!root) { return nullptr; }
+        vector<shared_ptr<TreeNode<T>>> v{};
+        queue<shared_ptr<TreeNode<T>>> q{};
+        q.push(root);
+        while (!q.empty()){
+            v.push_back(q.front());
+            q.pop();
+            if (v.back()->left) { q.push(v.back()->left); }
+            if (v.back()->right) { q.push(v.back()->right); }
+        }
+        return v[rand()%v.size()];
+    }
     
 
     /*----------------------------------------------------------------------
@@ -305,17 +319,44 @@ public:
      The path does not need to start or end at the root or a leaf, but it must
      go downwards (traveling only from parent nodes to child nodes).
      ----------------------------------------------------------------------*/
-
-    //
-    // TODO
-    //
+    int PathsWithSum(shared_ptr<TreeNode<T>> root, int target){
+        int paths=0;
+        queue<shared_ptr<TreeNode<T>>> q{};
+        q.push(root);
+        while (!q.empty()){
+            auto curr=q.front(); q.pop();
+            PathSum(curr,0,target,paths);
+            if (curr->left) { q.push(curr->left); }
+            if (curr->right) { q.push(curr->right); }
+        }
+        return paths;
+    }
+    
+    void PathSum(shared_ptr<TreeNode<T>> root, int currSum, int target, int& paths){
+        if (!root) { return; }
+        currSum+=root->val;
+        if (currSum==target) { paths++; }
+        PathSum(root->left, currSum, target, paths);
+        PathSum(root->right, currSum, target, paths);
+    }
     
 };
 
 
 int main(int argc, const char * argv[]) {
 
-
+    auto root=make_shared<TreeNode<int>>(10);
+    root->right=make_shared<TreeNode<int>>(-2);
+    root->left=make_shared<TreeNode<int>>(3);
+    root->left->left=make_shared<TreeNode<int>>(3);
+    root->left->right=make_shared<TreeNode<int>>(5);
+    root->left->left->left=make_shared<TreeNode<int>>(2);
+    root->left->right->right=make_shared<TreeNode<int>>(-10);
+    Solution<int> solution;
+    
+    while(true){
+        cout << solution.RandomNode(root)->val << endl;
+    }
     
     return 0;
 }
