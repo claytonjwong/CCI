@@ -152,6 +152,12 @@ TEST(OneAway5,Solution_1_5){
     CHECK(solution.isOneAway(s1,s2)==false);
 }
 
+TEST(OneAway6,Solution_1_5){
+    string s1("abc"),s2("ad");
+    Solution_1_5 solution;
+    CHECK(solution.isOneAway(s1,s2)==false);
+}
+
 //********************************************************************************
 
 // Solution 1.6

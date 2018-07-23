@@ -138,20 +138,54 @@ public:
 class Solution_1_5 {
 public:
     bool isOneAway(const string& s1, const string& s2) const {
-        if (s1==s2) return true;
-        int M=(int)s1.size(),N=(int)s2.size();
-        if (abs(M-N)>1) return false;
-        for (int i=0,j=0,diff=0; i<M && j<N; ++i,++j){
-            if (s1[i]==s2[j]) continue;
-            if (++diff > 1){
-                return false;
+        int i=0,j=0,diff=0,M=(int)s1.size(),N=(int)s2.size();
+        if (s1==s2 || abs(M-N) > 1) return false;
+        while (i<M && j<N){
+            if (s1[i]==s2[j]){
+                ++i,++j;
             }else{
-                if (M==N) continue; else if (M>N) ++i; else ++j;
+                if (++diff > 1) return false;
+                if(M==N)
+                    ++i,++j;
+                else
+                    i=(M>N)?i+1:i,j=(N>M)?j+1:j;
             }
         }
         return true;
     }
 };
+
+/*
+class Solution {
+public:
+    bool isOneEditDistance(string s1, string s2) {
+        if (s1==s2)
+            return false;
+        int M=(int)s1.size(),N=(int)s2.size();
+        if (abs(M-N) > 1)
+            return false;
+        int i=0,j=0,diff=0;
+        while (i<M && j<N){
+            if (s1[i]==s2[j]){
+                ++i,++j;
+                continue;
+            }
+            if (++diff > 1)
+                return false;
+            if(M==N){
+                ++i,++j;
+                continue;
+            }else{
+                if (M>N)
+                    ++i;
+                else
+                    ++j;
+            }
+        }
+        return true;
+    }
+};
+*/
 
 //
 // Question 1.6 String Compression: Implement a method to perform basic string compression using the counts
