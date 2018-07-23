@@ -167,9 +167,8 @@ public:
     string compress(const string& curr) const {
         int N=(int)curr.size();
         if (N<3) return curr;
-        string next;
-        next.reserve(2*curr.size());
-        for (int i=0,j=i+1; i<N; i=j,j=i+1){
+        string next; next.reserve(curr.size());
+        for (int i=0,j=i+1; i<N && next.size()<curr.size(); i=j,j=i+1){
             while (j<N && curr[i]==curr[j]) ++j;
             next.push_back(curr[i]);
             next.append(to_string(j-i));
