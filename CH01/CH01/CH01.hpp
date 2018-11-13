@@ -47,15 +47,19 @@ public:
 //
 class Solution_1_2 {
 public:
-    bool IsPermutation(const string& s1, const string& s2) const {
-        if (s1.size()!=s2.size()) return false;
-        string t1,t2;
-        transform(s1.begin(),s1.end(),t1.begin(),::tolower);
-        transform(s2.begin(),s2.end(),t2.begin(),::tolower);
-        unordered_map<char,int> m1,m2;
-        for (auto c: t1) ++m1[c];
-        for (auto c: t2) ++m2[c];
-        return m1==m2;
+    bool IsPermutation(const string& s1, const string& s2, bool data_structs_allowed=true) const {
+        if (data_structs_allowed){
+            return s1.size()==s2.size() && is_permutation(s1.begin(),s1.end(),s2.begin());
+        }else{
+            if (s1.size()!=s2.size()) return false;
+            string t1,t2;
+            transform(s1.begin(),s1.end(),t1.begin(),::tolower);
+            transform(s2.begin(),s2.end(),t2.begin(),::tolower);
+            unordered_map<char,int> m1,m2;
+            for (auto c: t1) ++m1[c];
+            for (auto c: t2) ++m2[c];
+            return m1==m2;
+        }
     }
 };
 
